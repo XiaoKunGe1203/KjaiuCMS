@@ -1,11 +1,11 @@
 <?php
 $conn = new mysqli($sqlinfo['host'], $sqlinfo['username'], $sqlinfo['password'], $sqlinfo['dbname']);
 // API地址
-$Oauth_config['apiurl'] = 'https://u.xiaobaixuan.com/';
+$Oauth_config['apiurl'] = 'None';
 // APPID
-$Oauth_config['appid'] = '1230';
+$Oauth_config['appid'] = 'None';
 // APPKEY
-$Oauth_config['appkey'] = '66336842dde4dd96c8ccf0c31ef4ab2c';
+$Oauth_config['appkey'] = 'None';
 // 登录成功返回地址
 $Oauth_config['callback'] = 'https://www.kjaiu.link/connect';
 function get_curl($url){
