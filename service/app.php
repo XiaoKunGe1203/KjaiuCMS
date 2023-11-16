@@ -171,5 +171,5 @@ ca($retjson);}else{echo '凭据已过期请重新授权';}
 }
 break;
 default:
-  //表达式的值不等于 label1 及 label2 时执行的代码;
+  //表达式的值不等于任何时执行的代码;
 }
