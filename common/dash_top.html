@@ -1,0 +1,40 @@
+
+<body>
+  <div id="app">
+    <div class="main-wrapper">
+      <div class="navbar-bg"></div>
+      <nav class="navbar navbar-expand-lg main-navbar">
+        <form class="form-inline mr-auto">
+          <ul class="navbar-nav mr-3">
+            <li><a href="javascript:void(0);" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+          </ul>
+        </form>
+        <ul class="navbar-nav navbar-right">
+          <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link nav-link-lg nav-link-user"><i class="fas fa-language" style="vertical-align: -2px; padding-right: 2px;"></i> 简体中文</a>
+            <div class="dropdown-menu dropdown-menu-right"> <a href="##" class="dropdown-item has-icon" onclick="changeLang('en')"> 🇬🇧 English </a> <a href="##" class="dropdown-item has-icon" onclick="changeLang('zh-cn')"> 🇨🇳 简体中文 </a> </div>
+          </li>
+          <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="<?php echo $userinfo['userimg'];?>" class="rounded-circle mr-1">
+              <div class="d-sm-none d-lg-inline-block">您好，<?php echo $userinfo['nickname'];?></div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right"> <a href="/dashboard" class="dropdown-item has-icon"> <i class="fas fa-user"></i> 用户中心 </a> 
+              <div class="dropdown-divider"></div>
+              <a href="/?c=logout" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i> 退出登录 </a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <div class="main-sidebar sidebar-style-2">
+        <aside id="sidebar-wrapper">
+          <div class="sidebar-brand"> <a href="/"><?php echo $siteinfo['web_name'];?> | 控制台</a> </div>
+          <div class="sidebar-brand sidebar-brand-sm"> <a href="/"><?php echo $siteinfo['web_name'];?></a> </div>
+          <ul class="sidebar-menu">
+            <li><a class="nav-link" href="/"><i class="fas fa-house"></i>  <span>首页</span></a></li>
+			
+			<li><a class="nav-link" href="/create"><i class="fas fa-cart-shopping"></i> <span>创建服务器</span></a></li>
+			
+			<li><a class="nav-link" href="/dashboard"><i class="fas fa-server"></i> <span>我的服务器</span></a></li>
+			<li><a class="nav-link" href="http://qjpn.tk/"><i class="fas fa-up-right-from-square"></i> <span>构建库</span></a></li>
+          </ul>
+          <div class="mt-4 mb-4 p-3 hide-sidebar-mini"> <a href="/?c=logout" class="btn btn-primary btn-lg btn-block btn-icon-split"> <i class="fab fa-telegram-plane"></i> 退出登录 </a> </div>
+        </aside>
+      </div>
