@@ -103,6 +103,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (form.checkValidity() === false) {
           event.preventDefault();
           event.stopPropagation();
+        }else{
+        swal({
+        title: "创建服务器请求已发送",
+        text: '请等待刷新，如果超过1分钟没有结束请联系管理员',
+        type: "success",
+        showConfirmButton: false,
+        timer: 3000
+        });
         }
         form.classList.add('was-validated');
       }, false);
