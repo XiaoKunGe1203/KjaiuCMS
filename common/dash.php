@@ -30,8 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      }
     }
 }
-if($_GET['c'] == 'deldomain'){
-        $ok = '删除成功';
+
+if($_GET['c'] == 'domain' && $_GET['action'] == 'add'){
+        if($_POST['subdomain']==null){$domaininfo['domain'] = 'mc.qzweb.top';}
 }
 
 ?>
@@ -103,10 +104,11 @@ window.open(
 function vts() {    
   // 获取选中的选项    
   var selectedOption = document.getElementById("valuetype").options[document.getElementById("valuetype").selectedIndex];    
+  var selectedOptiontype = document.getElementById("proto").options[document.getElementById("proto").selectedIndex];    
       
   // 获取选项的value值    
+  var proto = selectedOptiontype.value;  
   var value = selectedOption.value;    
-  var va = ''; // 定义va变量  
   switch (value) {  
     case 'jhh':  
       va = 'play.simpfun.cn';  
@@ -133,8 +135,11 @@ function vts() {
       document.getElementById('jxz').innerHTML = '<input type=\'text\' class="form-control" value=\''+va+'\' readonly=\'readonly\' placeholder=\'请选择...\'>';  
       break;    
   }  
-  // 在控制台打印value值    
-  console.log("Selected value: " + value);    
+  if(proto =='srv'){  
+    document.getElementById('Vtype').innerHTML = '<label for="inputEmail3" class="col-sm-3 form-control-label">端口号</label><div class="col-sm-9"><input type="number" name="age" type=\'text\' size=\'40\' class="form-control" name=\'port\' id=\'port\' required placeholder="1-65535"/><div class="invalid-feedback">请输入端口号！</div></div>';    
+}else{  
+    document.getElementById('Vtype').innerHTML = '';    
+}
 }
 </script>
 <script>
@@ -150,6 +155,14 @@ function vts() {
         if (form.checkValidity() === false) {
           event.preventDefault();
           event.stopPropagation();
+        }else{
+        swal({
+        title: "服务请求已发送",
+        text: '请等待刷新，如果超过1分钟没有结束请联系管理员',
+        type: "success",
+        showConfirmButton: false,
+        timer: 3000
+        });
         }
         form.classList.add('was-validated');
       }, false);
@@ -244,14 +257,15 @@ function vts() {
 						<?php if(isset($domaininfo['domain'])){?>
 						你的域名：<?php echo $domaininfo['domain'];?><br>
                         删除当前的域名后，该域名将无法继续使用，不过你可重新创建一个域名。
-                        <a href="?c=deldomain"><button class="btn btn-danger">删除</button></a>
+                        <a href="?c=domain&action=del"><button class="btn btn-danger">删除</button></a>
                         <?php } else{?>
-								<form name='nodeform' action="dashboard?c=domain&a=add" method="post">
+								<form name='nodeform' action="dashboard?c=domain&action=add" method="post" class="needs-validation" novalidate>
 									<div class="form-group row">
 										<label for="inputEmail3" class="col-sm-3 form-control-label">域名</label>
 										<div class="col-sm-9">
 											<input type='text' size='40' class="form-control" name='subdomain' id='subdomain' 
-											 placeholder="前缀 如：mc" />
+											 placeholder="前缀 如：mc" required />
+											 <div class="invalid-feedback">请输入前缀！</div>
 											 <select name="domain" id="domain"  class="form-control">
 												<option value="qzweb">.qzweb.top</option>
 												</select>
@@ -273,8 +287,6 @@ function vts() {
 										<label for="inputPassword4" class="col-sm-3 form-control-label">解析类型</label>
 										<div class="col-sm-9">
 								        <select onchange="vts()" name="proto" id="proto"  class="form-control">
-
-												<option value="a">A</option>
 												<option value="cname">CNAME</option>
 												<option value="srv">SRV</option>
 												</select>
@@ -283,8 +295,10 @@ function vts() {
 									<div class="form-group row">
 										<label for="inputEmail3" class="col-sm-3 form-control-label">解析值</label>
 										<div id="jxz" class="col-sm-9">
-											<input type='text' size='40' class="form-control" name='value' id='value' placeholder="如：1.2.3.4" readonly="readonly"/>
+											<input type='text' size='40' class="form-control" name='value' id='value' placeholder="如：1.2.3.4" readonly="readonly"required />
                                         </div>
+									</div>
+									<div id="Vtype" class="form-group row">
 									</div>
 									<div class="form-group row">
 										<label for="inputPassword3" class="col-sm-2 form-control-label">&nbsp;</label>
