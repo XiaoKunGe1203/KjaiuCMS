@@ -337,6 +337,9 @@ function vts() {
 						<div class="col-sm-6 col-md-4 col-lg-4 col-xl-6 col-xs-6">
 						<?php if(isset($domains['subdomainText'])){?>
 						你的域名：<?php echo $domains['subdomainText'].$domains['domain'];?><br>
+						记录类型：<?php echo $domains['type'];?><br>
+						记录值：<?php echo $domains['value'];?><br>
+						SRV端口：<?php if($domains['type'] == 'srv'){ echo $domains['SrvPort']; } ?><br>
                         删除当前的域名后，该域名将无法继续使用，不过你可重新创建一个域名。
                         <a href="?c=domain"><button class="btn btn-danger">删除</button></a>
                         <?php } else{?>
