@@ -11,14 +11,15 @@
 所有代码传到网站根目录<br>
 导入根目录的app.sql文件<br>
 ### 伪静态设置
-
-```   nginx用户：
+nginx用户：
+```   
 
    location / {
 	if (!-e $request_filename){
 		rewrite  ^(.*)$  /index.php?s=$1  last;   break;
 	}
 }
+```
 
 ### 配置数据库
 修改数据库配置文件config.php<br>
