@@ -45,7 +45,13 @@ if ($result->num_rows > 0) {
 //删除
 $data['subdomainid'] = $domains['subdomainid'];
 $dnsla = dnsla_ds($data);
-$error = '删除失败'.$domains['subdomainid'];
+    if($dnsla['msg'] == 0){
+        $ssql = "DELETE FROM subdomains WHERE `subdomains`.`id` = ".$domains['id'];
+        $conn->query($ssql);
+         exit("<script language='javascript'>window.location.href='/dashboard';</script>");
+}else{
+        $error = $dnsla['data'];
+    }
 }else{
 if($_POST['domain']=='qzweb'){
     $domainId = '98420387423196160';
@@ -85,9 +91,14 @@ switch($_POST['proto']){
      $error = '未知的解析类型';
      break;
 }
- $data = array('host' => $danhost, 'type' => $dantype , 'domainId' => $domainId , 'data' => $dandata);
-    $dnsla = dnsla_ca($data);
-    if($dnsla['msg'] == 0){
+$esql = "SELECT * FROM `subdomains` WHERE `subdomainText` = '".$danhost."' AND `domain` = '".$domain."'";
+$result = $conn->query($esql);
+if ($result->num_rows > 0) {
+    $error = '前缀已经存在';
+}else{
+        $data = array('host' => $danhost, 'type' => $dantype , 'domainId' => $domainId , 'data' => $dandata);
+        $dnsla = dnsla_ca($data);
+        if($dnsla['msg'] == 0){
         $csql = "select * from subdomains order by id desc limit 1;";
             $result = $conn->query($csql);
             if ($result->num_rows > 0) {
@@ -97,11 +108,10 @@ switch($_POST['proto']){
             }
         $ssql = "INSERT INTO `subdomains` (`id`, `uid`, `subdomainid`, `subdomainText`, `value`, `type`, `SrvPort`, `domain`) VALUES ('".$newid."', '".$userinfo['id']."', '".$dnsla['data']."', '".$_POST['subdomain']."', '".$value."', '".$_POST['proto']."', '". $port."', '".$domain."');";
         $conn->query($ssql);
-    $sql = "SELECT * FROM `subdomains` WHERE `uid` = " . $userinfo['id'];
-$result = $conn->query($sql);
  exit("<script language='javascript'>window.location.href='/dashboard';</script>");
-    }else{
+        }else{
         $error = $dnsla['data'];
+    }
     }
 }
 }
