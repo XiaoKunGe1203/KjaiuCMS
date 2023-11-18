@@ -12,7 +12,7 @@
 导入根目录的app.sql文件<br>
 ### 伪静态设置
 
-   nginx用户：
+```   nginx用户：
 
    location / {
 	if (!-e $request_filename){
