@@ -1,4 +1,4 @@
-<?php 
+<?php
 $conn = new mysqli($sqlinfo['host'], $sqlinfo['username'], $sqlinfo['password'], $sqlinfo['dbname']);
 $sql = "SELECT * FROM `orders` WHERE `uid` = " . $userinfo['id'];
 $result = $conn->query($sql);
@@ -9,6 +9,13 @@ if ($result->num_rows > 0) {
     $orderdata = '<span>到期时间：'.date('Y-m-d H:i:s', $orders['stoptime']).' </span>';
 }else {
     $orderdata = '你还没有创建服务器';
+}
+$sqldomain = "SELECT * FROM `subdomains` WHERE `uid` = " . $userinfo['id'];
+$result = $conn->query($sqldomain);
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) { 
+        $domains  = $row;
+    }
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($_GET['c'] == 'renew'){
@@ -30,13 +37,76 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      }
     }
 }
-
-if($_GET['c'] == 'domain' && $_GET['action'] == 'add'){
-        if($_POST['subdomain']==null){$domaininfo['domain'] = 'mc.qzweb.top';}
+if($_GET['c'] == 'domain'){
+include 'common/dnsla.php';
+$dsql = "SELECT * FROM `subdomains` WHERE `uid` = " . $userinfo['id'];
+$result = $conn->query($dsql);
+if ($result->num_rows > 0) {
+//删除
+$data['subdomainid'] = $domains['subdomainid'];
+$dnsla = dnsla_ds($data);
+$error = '删除失败'.$domains['subdomainid'];
+}else{
+if($_POST['domain']=='qzweb'){
+    $domainId = '98420387423196160';
+    $domain = '.qzweb.top';
 }
-
+switch ($_POST['valuetype']) {
+   case "kjaiu":
+     $value = 'free1.mcpuls.link';
+     break;
+   case "wemcs2":
+     $value = "s2.wemc.cc";
+     break;
+   case "lty":
+     $value = "cname.lantiangw.fun";
+     break;
+   case "jhh":
+    $value = 'play.simpfun.cn';
+     break;
+   default:
+     $error = '未知的服务商';
+     break;
+}
+switch($_POST['proto']){
+   case "cname":
+     $dantype = 5;
+     $dandata = $value;
+     $danhost = $_POST['subdomain'];
+     $port = '0';
+     break;
+   case "srv":
+     $dantype = 33;
+     $dandata = '5 0 ' . $_POST['port'] .' '. $value. '.';
+     $danhost = '_minecraft._tcp.'.$_POST['subdomain'];
+     $port = $_POST['port'];
+     break;
+   default:
+     $error = '未知的解析类型';
+     break;
+}
+ $data = array('host' => $danhost, 'type' => $dantype , 'domainId' => $domainId , 'data' => $dandata);
+    $dnsla = dnsla_ca($data);
+    if($dnsla['msg'] == 0){
+        $csql = "select * from subdomains order by id desc limit 1;";
+            $result = $conn->query($csql);
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    $newid = ($row["id"] + 1);
+                }
+            }
+        $ssql = "INSERT INTO `subdomains` (`id`, `uid`, `subdomainid`, `subdomainText`, `value`, `type`, `SrvPort`, `domain`) VALUES ('".$newid."', '".$userinfo['id']."', '".$dnsla['data']."', '".$_POST['subdomain']."', '".$value."', '".$_POST['proto']."', '". $port."', '".$domain."');";
+        $conn->query($ssql);
+    $sql = "SELECT * FROM `subdomains` WHERE `uid` = " . $userinfo['id'];
+$result = $conn->query($sql);
+ exit("<script language='javascript'>window.location.href='/dashboard';</script>");
+    }else{
+        $error = $dnsla['data'];
+    }
+}
+}
 ?>
-							<style type="text/css">
+<style type="text/css">
 							div.row {  
     word-break: break-all;  
 }
@@ -108,27 +178,28 @@ function vts() {
       
   // 获取选项的value值    
   var proto = selectedOptiontype.value;  
-  var value = selectedOption.value;    
+  var value = selectedOption.value;   
+ va = ''; 
   switch (value) {  
-    case 'jhh':  
-      va = 'play.simpfun.cn';  
-      document.getElementById('jxz').innerHTML = '<input type="text" class="form-control" value="'+ va +'" readonly="readonly">';  
+          case 'jhh':  
+        va = 'play.simpfun.cn';  
+      document.getElementById('jxz').innerHTML = '<input type="text" id="valuedata" name="valuedata" class="form-control" value="'+ va +'" readonly="readonly">';  
       break;    
     case 'lty':  
-      va = '119.188.240.80';  
-      document.getElementById('jxz').innerHTML = '<input type="text" class="form-control" value="'+ va +'" readonly="readonly">';  
+      va = 'cname.lantiangw.fun';  
+      document.getElementById('jxz').innerHTML = '<input type="text" id="valuedata" class="form-control" value="'+ va +'" name="valuedata" readonly="readonly">';  
       break;    
     case 'wemcs2':  
       va = 's2.wemc.cc';  
-      document.getElementById('jxz').innerHTML = '<input type="text" class="form-control" value="'+ va +'" readonly="readonly">';  
+      document.getElementById('jxz').innerHTML = '<input type="text" id="valuedata" class="form-control" value="'+ va +'" name="valuedata" readonly="readonly">';  
       break;    
     case 'kjaiu':  
       va = 'free1.mcpuls.link';  
-      document.getElementById('jxz').innerHTML = '<input type="text" class="form-control" value="'+ va +'" readonly="readonly">';  
+      document.getElementById('jxz').innerHTML = '<input type="text" id="valuedata" class="form-control" value="'+ va +'" name="valuedata" readonly="readonly">';  
       break;    
-    case 'qing':  
+    case 'qing': 
       va = '';  
-      document.getElementById('jxz').innerHTML = '<input type="text" class="form-control" value="'+ va +'" readonly="readonly" placeholder="如：1.2.3.4">';  
+      document.getElementById('jxz').innerHTML = '<input type="text" id="valuedata" class="form-control" value="'+ va +'" name="valuedata" readonly="readonly" placeholder="如：1.2.3.4">';  
       break;    
     default:  
       va = '';  
@@ -136,7 +207,7 @@ function vts() {
       break;    
   }  
   if(proto =='srv'){  
-    document.getElementById('Vtype').innerHTML = '<label for="inputEmail3" class="col-sm-3 form-control-label">端口号</label><div class="col-sm-9"><input type="number" name="age" type=\'text\' size=\'40\' class="form-control" name=\'port\' id=\'port\' required placeholder="1-65535"/><div class="invalid-feedback">请输入端口号！</div></div>';    
+    document.getElementById('Vtype').innerHTML = '<label for="inputEmail3" class="col-sm-3 form-control-label">端口号</label><div class="col-sm-9"><input type="number" name="port" type=\'text\' size=\'40\' class="form-control" name=\'port\' id=\'port\' required placeholder="1-65535"/><div class="invalid-feedback">请输入端口号！</div></div>';    
 }else{  
     document.getElementById('Vtype').innerHTML = '';    
 }
@@ -254,12 +325,12 @@ function vts() {
 						<div class="section-title" style="margin-top: 0;"> <h2>域名管理</h2></div>
 						<div class="row">
 						<div class="col-sm-6 col-md-4 col-lg-4 col-xl-6 col-xs-6">
-						<?php if(isset($domaininfo['domain'])){?>
-						你的域名：<?php echo $domaininfo['domain'];?><br>
+						<?php if(isset($domains['subdomainText'])){?>
+						你的域名：<?php echo $domains['subdomainText'].$domains['domain'];?><br>
                         删除当前的域名后，该域名将无法继续使用，不过你可重新创建一个域名。
-                        <a href="?c=domain&action=del"><button class="btn btn-danger">删除</button></a>
+                        <a href="?c=domain"><button class="btn btn-danger">删除</button></a>
                         <?php } else{?>
-								<form name='nodeform' action="dashboard?c=domain&action=add" method="post" class="needs-validation" novalidate>
+								<form name='nodeform' action="dashboard?c=domain" method="post" class="needs-validation" novalidate>
 									<div class="form-group row">
 										<label for="inputEmail3" class="col-sm-3 form-control-label">域名</label>
 										<div class="col-sm-9">
