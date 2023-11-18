@@ -1,12 +1,4 @@
 <?php
-/*
-nginx伪静态
-location / {
-	if (!-e $request_filename){
-		rewrite  ^(.*)$  /index.php?s=$1  last;   break;
-	}
-}
-*/
 include 'config.php';
 
 $conn = new mysqli($sqlinfo['host'], $sqlinfo['username'], $sqlinfo['password'], $sqlinfo['dbname']);
