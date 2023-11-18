@@ -13,8 +13,7 @@
 ### 伪静态设置
 nginx用户：
 ```   
-
-   location / {
+location / {
 	if (!-e $request_filename){
 		rewrite  ^(.*)$  /index.php?s=$1  last;   break;
 	}
