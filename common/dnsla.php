@@ -1,7 +1,7 @@
 <?php
 function dnsla_ca($data){
     // 生成Basic令牌  
-$token = base64_encode('376645357a77636f30773a003a31514c527548:dc9b6cbd79e923da63fa7e8efa11e6ccad24d7c2');  
+$token = base64_encode('None:None');  
 // 要添加解析记录的域名ID和其他参数  
 $domainId = $data['domainId'];  
 $type = $data['type']; 
@@ -42,7 +42,7 @@ if ($result['code'] == 200) {
 }
 function dnsla_ds($data){
     // 生成Basic令牌  
-$token = base64_encode('376645357a77636f30773a003a31514c527548:dc9b6cbd79e923da63fa7e8efa11e6ccad24d7c2');  
+$token = base64_encode('None:None');  
 // 设置请求URL和请求选项  
 $url = 'https://api.dns.la/api/record?id='.$data['subdomainid'];  
 $options = array(  
