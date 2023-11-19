@@ -79,7 +79,25 @@ if($_GET['c'] == 'logout'){setcookie("uid",""); setcookie("authentication",""); 
 
 </head>
 <body>
-  
+  <script>  
+    var img = new Image();  
+    img.onload = function() {  
+    // 在这里写你的代码，图片加载完后这个函数就会被调用  
+    var homeDiv = document.getElementById("home");  
+    var loadingDiv = document.getElementById("loading"); 
+    homeDiv.style.display = "block";  
+    loadingDiv.parentNode.removeChild(loadingDiv);  
+};  
+img.src = "https://api.imlazy.ink/mcapi/mcbg.php";
+  </script>  
+      <div id="loading" class="loading-screen">
+        <div class="loading-animation">
+          <img src="assets/images/h-1.svg" alt="" class="logo">
+          <div class="loading-bar"></div>
+        <link rel="stylesheet" href="assets/css/loading.css" type="text/css">  
+        </div>
+      </div>
+<div id="home" style="display: none;">
   <section data-bs-version="5.1" class="menu menu3 cid-sFAA5oUu2Y" once="menu" id="menu3-1">
     
     <nav class="navbar navbar-dropdown navbar-expand-lg">
@@ -128,6 +146,7 @@ if($_GET['c'] == 'logout'){setcookie("uid",""); setcookie("authentication",""); 
         </div>
     </div>
 </section>
+</div>
 <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/parallax/jarallax.js"></script> 
    <script src="assets/smoothscroll/smooth-scroll.js"></script> 
@@ -171,5 +190,5 @@ ca($retjson);}else{echo '凭据已过期请重新授权';}
 }
 break;
 default:
-  //表达式的值不等于任何时执行的代码;
+   //表达式的值不等于任何时执行的代码;
 }
