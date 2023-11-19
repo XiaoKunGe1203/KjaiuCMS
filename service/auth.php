@@ -26,15 +26,17 @@ exit;
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
 <meta content="Coderthemes" name="author" />
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-touch-fullscreen" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<meta name="full-screen" content="yes">
-		<meta name="browsermode" content="application">
-		<meta name="x5-fullscreen" content="true">
-		<meta name="x5-page-mode" content="app">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="full-screen" content="yes">
+<meta name="browsermode" content="application">
+<meta name="x5-fullscreen" content="true">
+<meta name="x5-page-mode" content="app">
 <link href="style/login/css/icons.min.css" rel="stylesheet" type="text/css" />
 <link href="style/login/css/app.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 </head>
 
 <body class="auth-fluid-pages pb-0">
@@ -186,15 +188,17 @@ exit;
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
 <meta content="Coderthemes" name="author" />
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-touch-fullscreen" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<meta name="full-screen" content="yes">
-		<meta name="browsermode" content="application">
-		<meta name="x5-fullscreen" content="true">
-		<meta name="x5-page-mode" content="app">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="full-screen" content="yes">
+<meta name="browsermode" content="application">
+<meta name="x5-fullscreen" content="true">
+<meta name="x5-page-mode" content="app">
 <link href="style/login/css/icons.min.css" rel="stylesheet" type="text/css" />
 <link href="style/login/css/app.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 </head>
 
 <body class="auth-fluid-pages pb-0">
